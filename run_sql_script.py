@@ -34,3 +34,5 @@ def execute_sql_script(filename, config):
 
 if __name__ == "__main__":
     execute_sql_script('schema_changes.sql', config)
+    execute_sql_script('adddept_table.sql', config)
+    
