@@ -1,0 +1,22 @@
+Title: Assignment 2 – PROG8850 Database Automation
+1. Azure MySQL Setup
+Screenshot of Azure portal
+
+DB name: companydb
+
+2. GitHub Actions Setup
+Show repo structure
+
+Screenshot of Secrets settings
+
+3. Workflow Test Results
+Screenshot of successful GitHub Actions run
+
+Confirmation from Azure that departments table was created
+
+4. References
+GitHub Actions
+
+Azure MySQL
+
+mysql-connector-python

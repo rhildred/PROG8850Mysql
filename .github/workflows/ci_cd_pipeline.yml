@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install mysql-connector-python
+      run: pip install mysql-connector-python
+
+    - name: Run add_departments.sql on Azure MySQL
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: companydb
+      run: |
+        python3 -c "
+import mysql.connector
+
+conn = mysql.connector.connect(
+    host='${{ env.DB_HOST }}',
+    user='${{ env.DB_USER }}',
+    password='${{ env.DB_PASSWORD }}',
+    database='${{ env.DB_NAME }}'
+)
+
+cursor = conn.cursor()
+with open('add_departments.sql', 'r') as file:
+    sql = file.read().split(';')
+    for stmt in sql:
+        stmt = stmt.strip()
+        if stmt:
+            cursor.execute(stmt)
+conn.commit()
+cursor.close()
+conn.close()
+print('add_departments.sql executed successfully.')
+        "
