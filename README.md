@@ -52,4 +52,11 @@ To shut down:
 ansible-playbook down.yml
 ```
 
-This is a reproducible mysql setup
+There is also a flyway migration here. To run the migration:
+
+```bash
+docker run --rm -v "/workspaces/<repo name>/migrations:/flyway/sql" -v "/workspaces/<repo name>:/flyway/conf" 
+redgate/flyway migrate
+```
+
+This is a reproducible mysql setup, with a flyway migration. It is also the start of an example of using flyway and github actions together. Flyway (jdbc) needs the database to exist. The github action creates it if it doesn't exist and flyway takes over from there.
